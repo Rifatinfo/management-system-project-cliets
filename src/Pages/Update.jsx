@@ -4,16 +4,43 @@ const Update = () => {
 
     const loadedUsers = useLoaderData();
     console.log(loadedUsers);
+
     const handleUpdate = (e) => {
         e.preventDefault();
+
         const form = e.target;
         const name = form.name.value;
         const email = form.email.value;
-        const male = form.male.checked;  
-        const female = form.female.checked;  
-        const active = form.active.checked;  
-        const inactive = form.inactive.checked; 
-        console.log(name, email, male, female, active, inactive);
+        const male = form.male.checked;
+        const female = form.female.checked;
+        const active = form.active.checked;
+        const inactive = form.inactive.checked;
+
+        const updatedUser = { name, email, male, female, active, inactive };
+
+        fetch(`http://localhost:5000/users/${loadedUsers._id}`, {
+            method: "PUT",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedUser)
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+
+                // Check both modifiedCount and upsertedCount to confirm update success
+                if (data.modifiedCount > 0 || data.upsertedCount > 0) {
+                    alert('User updated successfully');
+                    form.reset();
+                } else {
+                    alert('No changes were made');
+                }
+            })
+            .catch(error => {
+                console.error('Error updating user:', error);
+                alert('Failed to update user');
+            });
     };
 
     return (

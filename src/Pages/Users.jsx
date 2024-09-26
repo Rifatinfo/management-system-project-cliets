@@ -2,10 +2,28 @@ import { FaUser } from "react-icons/fa";
 import { Link, useLoaderData } from "react-router-dom";
 import { RxCross2 } from "react-icons/rx";
 import { MdModeEdit } from "react-icons/md";
+import { useState } from "react";
 
 const Users = () => {
 
-    const users = useLoaderData();
+    const loadedUsers = useLoaderData();
+    const [users, setUsers] = useState(loadedUsers);
+
+    const handleDelete = _id => {
+        fetch(`http://localhost:5000/users/${_id}`, {
+          method: "DELETE",
+        })
+        .then(res => res.json())
+        .then(data => {
+          console.log(data);
+          if (data.deletedCount > 0) {  // Corrected deletedCount
+            alert('Successfully deleted');
+            const remaining = users.filter(user => user._id !== _id);
+            setUsers(remaining); 
+          }
+        });
+      }
+      
 
     return (
         <div className="max-w-6xl mx-auto">
@@ -49,7 +67,7 @@ const Users = () => {
                                     <p className="text-2xl font-bold text-blue-600 flex justify-center"><MdModeEdit /></p>
                                 </td>
                                 <td className="border px-4 py-2">
-                                    <p className="text-2xl font-bold text-blue-600 flex justify-center"><RxCross2 /></p>
+                                    <p onClick={() => handleDelete(user._id)} className="text-2xl font-bold text-blue-600 flex justify-center"><RxCross2 /></p>
                                 </td>
                             </tr>
                         ))}

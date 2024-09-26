@@ -1,4 +1,4 @@
-import { useLoaderData } from "react-router-dom";
+import { Link, useLoaderData } from "react-router-dom";
 
 const Update = () => {
 
@@ -45,7 +45,12 @@ const Update = () => {
 
     return (
         <div className="max-w-6xl mx-auto mt-9">
-            <form onSubmit={handleUpdate}>
+            <div>
+                <Link to="/users">
+                    <p className="text-blue-500 font-bold py-3 px-7 shadow-lg text-center">Go To All User</p>
+                </Link>
+            </div>
+            <form onSubmit={handleUpdate} className="mt-24">
                 <div className="form-control w-full">
                     <label className="label">
                         <span className="label-text">Name</span>

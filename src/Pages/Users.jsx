@@ -11,19 +11,19 @@ const Users = () => {
 
     const handleDelete = _id => {
         fetch(`http://localhost:5000/users/${_id}`, {
-          method: "DELETE",
+            method: "DELETE",
         })
-        .then(res => res.json())
-        .then(data => {
-          console.log(data);
-          if (data.deletedCount > 0) {  // Corrected deletedCount
-            alert('Successfully deleted');
-            const remaining = users.filter(user => user._id !== _id);
-            setUsers(remaining); 
-          }
-        });
-      }
-      
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                if (data.deletedCount > 0) {  // Corrected deletedCount
+                    alert('Successfully deleted');
+                    const remaining = users.filter(user => user._id !== _id);
+                    setUsers(remaining);
+                }
+            });
+    }
+
 
     return (
         <div className="max-w-6xl mx-auto">
@@ -64,7 +64,9 @@ const Users = () => {
                                     {user.active ? "Active" : "Inactive"}
                                 </td>
                                 <td className="border px-4 py-2 ">
-                                    <p className="text-2xl font-bold text-blue-600 flex justify-center"><MdModeEdit /></p>
+                                    <Link to={`/update/${user._id}`}>
+                                        <p className="text-2xl font-bold text-blue-600 flex justify-center"><MdModeEdit /></p>
+                                    </Link>
                                 </td>
                                 <td className="border px-4 py-2">
                                     <p onClick={() => handleDelete(user._id)} className="text-2xl font-bold text-blue-600 flex justify-center"><RxCross2 /></p>

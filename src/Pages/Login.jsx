@@ -13,12 +13,28 @@ const Login = () => {
         const inactive = form.inactive.checked;  
         const user = { name, email, male, female, active,inactive};
         console.log(user);
+
+        fetch('http://localhost:5000/users', {
+            method : "POST",
+            headers : {
+                'content-type' : 'application/json'
+            },
+            body : JSON.stringify(user)
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+            if(data.insertedId){
+              alert("User Successfully added");
+              form.reset();
+            }
+        })
     };
 
 
     return (
         <div className="max-w-6xl mx-auto mt-10">
-            <Link to="/">
+            <Link to="/users">
                 <button className="flex items-center gap-3 shadow-xl py-3 px-4 text-blue-600">
                     <p className="font-semibold">All New User </p>
                 </button>
